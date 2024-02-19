@@ -106,10 +106,42 @@ function getCasesInArray(data) {
   return exec(data);
 }
 
+function getAround(arr, index, size) {
+  // remove self
+  size -= 1;
+
+  const maxIndex = arr.length - 1;
+  const minIndex = 0;
+
+  let left = index - Math.floor(size / 2),
+      right = index + Math.ceil(size / 2);
+
+  if (left < minIndex) {
+    let diff = minIndex - left;
+    while(diff > 0 && right < maxIndex) {
+      right++;
+      diff--;
+    }
+    left = minIndex;
+  }
+
+  if (right > maxIndex) {
+    let diff = right - maxIndex;
+    while(diff > 0 && left > minIndex) {
+      left--;
+      diff--;
+    }
+    right = maxIndex;
+  }
+
+  return arr.slice(left, right + 1);
+}
+
 export default {
   min: getMinimumValue,
   max: getMaximumValue,
   mean: getAverageOfNumbers,
   mode: getMostFrequentValue,
   spread: getCasesInArray,
+  around: getAround,
 }
